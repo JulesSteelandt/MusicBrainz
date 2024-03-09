@@ -1,4 +1,3 @@
-
 <script>
 export default {
   name: 'NotFound'
@@ -11,10 +10,3 @@ export default {
     <p>Désolé, la page que vous recherchez est introuvable.</p>
   </div>
 </template>
-
-<style scoped>
-.not-found {
-  text-align: center;
-  margin-top: 50px;
-}
-</style>

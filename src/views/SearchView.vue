@@ -1,14 +1,3 @@
-<template>
-  <div class="music-app">
-    <SearchBar @search="performSearch" />
-    <MusicSearch :results="searchResults" />
-    <div class="pagination">
-      <button @click="previousPage" :disabled="offset === 0">Précédent</button>
-      <button @click="nextPage" :disabled="searchResults.length < 10">Suivant</button>
-    </div>
-  </div>
-</template>
-
 <script>
 import SearchBar from '../components/SearchBar.vue';
 import MusicResults from '../components/MusicResults.vue';
@@ -28,10 +17,10 @@ export default {
       query: ''
     }
   },
-  mounted() {
-    this.performSearch('');
-  },
   methods: {
+    resetOffset() {
+      this.offset = 0;
+    },
     async performSearch(query) {
       this.query = query; // Store the current query
       try {
@@ -62,6 +51,13 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<template>
+  <div class="music-app">
+    <SearchBar @search="performSearch" :resetOffset="resetOffset" />
+    <MusicSearch :results="searchResults" />
+    <div class="pagination">
+      <button @click="previousPage" :disabled="offset === 0">Précédent</button>
+      <button @click="nextPage" :disabled="searchResults.length < 10">Suivant</button>
+    </div>
+  </div>
+</template>

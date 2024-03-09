@@ -1,13 +1,9 @@
-<!-- SearchBar.vue -->
-<template>
-  <div class="search-bar">
-    <input type="text" v-model="query" @input="search" placeholder="Recherche...">
-  </div>
-</template>
-
 <script>
 export default {
   name: 'SearchBar',
+  props: {
+    resetOffset: Function
+  },
   data() {
     return {
       query: ''
@@ -15,12 +11,15 @@ export default {
   },
   methods: {
     search() {
+      this.resetOffset();
       this.$emit('search', this.query);
     }
   }
 }
 </script>
 
-<style scoped>
-
-</style>
+<template>
+  <div class="search-bar">
+    <input type="text" v-model="query" @input="search" placeholder="Recherche...">
+  </div>
+</template>
