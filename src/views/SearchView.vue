@@ -1,63 +1,99 @@
+<template>
+  <div class="min-h-screen flex flex-col items-center">
+
+    <SearchBar @search="performSearch" :resetOffset="resetOffset"/>
+
+    <div v-if="searchBy === 'title'">
+      <MusicSearch :results="searchTitleResults"/>
+    </div>
+
+    <div v-if="searchBy === 'artist'">
+      <ArtistSearch :results="searchArtistResults"/>
+    </div>
+
+    <div>
+      <button @click="previousPage" :disabled="offset === 0"
+              class="py-2 px-4 bg-blue-500 text-white rounded-lg mr-4"
+              :class="{ 'opacity-50 cursor-not-allowed': offset === 0 }">Précédent
+      </button>
+      <button @click="nextPage" :disabled="searchBy === 'title' ? (typeof searchTitleResults !== 'undefined' && searchTitleResults.length < 10) : (typeof searchArtistResults !== 'undefined' && searchArtistResults.length < 10)"
+              class="py-2 px-4 bg-blue-500 text-white rounded-lg"
+              :class="{ 'opacity-50 cursor-not-allowed': searchBy === 'title' ? (typeof searchTitleResults !== 'undefined' && searchTitleResults.length < 10) : (typeof searchArtistResults !== 'undefined' && searchArtistResults.length < 10) }">
+        Suivant
+      </button>
+    </div>
+  </div>
+</template>
+
+
+
+
 <script>
 import SearchBar from '../components/SearchBar.vue';
 import MusicResults from '../components/MusicResults.vue';
 import MusicSearch from "@/components/MusicSearch.vue";
+import ArtistSearch from "@/components/ArtistSearch.vue";
 
 export default {
   name: 'MusicApp',
   components: {
+    ArtistSearch,
     MusicSearch,
     SearchBar,
     MusicResults
   },
   data() {
     return {
-      searchResults: [],
+      searchTitleResults: [],
+      searchArtistResults: [],
       offset: 0,
-      query: ''
+      query: '',
+      searchBy: 'title' // Par défaut, recherche par titre
     }
   },
   methods: {
     resetOffset() {
       this.offset = 0;
     },
-    async performSearch(query) {
-      this.query = query; // Store the current query
+    async performSearch(query, searchBy) {
+      this.query = query;
+      this.searchBy = searchBy;
+
+      let baseUrl = 'https://musicbrainz.org/ws/2/';
+
+      let searchType = searchBy === 'title' ? 'recording' : 'artist';
+
+      let url = `${baseUrl}${searchType}/?fmt=json&query=${query}&limit=10&offset=${this.offset}`;
+
       try {
-        const response = await fetch(`https://musicbrainz.org/ws/2/recording/?query=${query}&fmt=json&limit=10&offset=${this.offset}`,
-            {
-              headers: {
-                'User-Agent': 'MusicBrainzJsteelandt/1.0 ()',
-              }
-            });
+        const response = await fetch(url, {
+          headers: {
+            'User-Agent': 'MusicBrainzJsteelandt/1.0 ()',
+          }
+        });
+
         const data = await response.json();
-        this.searchResults = data.recordings;
+
+        this.searchTitleResults = searchBy === 'title' ? data.recordings : [];
+        this.searchArtistResults = searchBy === 'artist' ? data.artists : [];
       } catch (error) {
         console.error('Erreur lors de la recherche:', error);
-        this.searchResults = [];
+        this.searchTitleResults = [];
       }
     },
+
     async previousPage() {
       if (this.offset >= 10) {
         this.offset -= 10;
-        await this.performSearch(this.query);
+        await this.performSearch(this.query, this.searchBy);
       }
     },
     async nextPage() {
       this.offset += 10;
-      await this.performSearch(this.query);
+      await this.performSearch(this.query, this.searchBy);
     }
   }
 }
 </script>
 
-<template>
-  <div class="music-app">
-    <SearchBar @search="performSearch" :resetOffset="resetOffset" />
-    <MusicSearch :results="searchResults" />
-    <div class="pagination">
-      <button @click="previousPage" :disabled="offset === 0">Précédent</button>
-      <button @click="nextPage" :disabled="searchResults.length < 10">Suivant</button>
-    </div>
-  </div>
-</template>
+

@@ -1,0 +1,35 @@
+<template>
+  <div class="artist-results">
+    <template v-if="results.length">
+      <ul>
+        <li v-for="(artist, index) in results" :key="index" class="mb-4">
+          <ArtistResult :name="artist.name" :disambiguation="artist.disambiguation" />
+        </li>
+      </ul>
+    </template>
+    <template v-else>
+      <p class="text-lg text-gray-700">Aucun artiste trouvé.</p>
+    </template>
+  </div>
+</template>
+
+<script>
+import ArtistResult from './ArtistResults.vue';
+
+export default {
+  name: 'ArtistSearch',
+  components: {
+    ArtistResult
+  },
+  props: {
+    results: {
+      type: Array,
+      default: () => []
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* Styles spécifiques au composant */
+</style>

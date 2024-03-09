@@ -18,7 +18,7 @@ const router = createRouter({
     {
       path: '/artiste/:id',
       name: 'artist',
-      component: () => import('../views/SearchView.vue')
+      component: () => import('../views/ArtistView.vue')
     },
     {
       path: '/title/:id',
