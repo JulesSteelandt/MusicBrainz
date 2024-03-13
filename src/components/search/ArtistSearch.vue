@@ -1,9 +1,9 @@
 <template>
-  <div class="artist-results">
+  <div class="max-w-lg mx-auto py-8">
     <template v-if="results.length">
       <ul>
         <li v-for="(artist, index) in results" :key="index" class="mb-4">
-          <ArtistResult :name="artist.name" :disambiguation="artist.disambiguation" />
+          <ArtistResult :name="artist.name" :disambiguation="artist.disambiguation" :id="artist.id"/>
         </li>
       </ul>
     </template>

@@ -7,7 +7,7 @@
     <div class="relative mb-2 sm:mb-0">
       <input type="text" v-model="query" @input="search" placeholder="Recherche..." class="py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent border border-gray-300">
       <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-        <svg class="h-5 w-5 text-gray-400" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+        <svg @click="resetQuery" class="h-5 w-5 cursor-pointer text-gray-400 hover:text-blue-500" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
           <path d="M15 15l6-6M9 15l6-6"></path>
         </svg>
       </div>
@@ -15,12 +15,10 @@
   </div>
 </template>
 
-
-
 <script>
 export default {
   props: {
-    resetOffset: Function
+    resetOffset: Function,
   },
   data() {
     return {
@@ -29,8 +27,13 @@ export default {
     }
   },
   methods: {
-    reset(){
-      this.$emit('search',this.query, this.searchBy);
+    resetQuery() {
+      this.query = '';
+      this.resetOffset();
+      this.$emit('search', this.query, this.searchBy);
+    },
+    reset() {
+      this.search();
     },
     search() {
       this.resetOffset();
@@ -40,3 +43,6 @@ export default {
 }
 </script>
 
+<style scoped>
+/* Ajoutez vos styles spécifiques pour la barre de recherche ici */
+</style>

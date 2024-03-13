@@ -1,5 +1,5 @@
 <script>
-import MusicResults from "@/components/MusicResults.vue";
+import MusicResults from "@/components/search/MusicResults.vue";
 
 export default {
   name: 'MusicSearch',
@@ -14,13 +14,13 @@ export default {
 </script>
 
 <template>
-  <div class="music-results max-w-lg mx-auto py-8">
+  <div class="max-w-lg mx-auto py-8">
     <template v-if="results.length">
-      <ul>
-        <li v-for="(recording, index) in results" :key="index" class="mb-4">
-          <MusicResults :title="recording.title" :artists="recording['artist-credit']"/>
-        </li>
-      </ul>
+        <ul class="list-none">
+          <li v-for="(recording, index) in results" :key="index" class="mb-4">
+            <MusicResults :title="recording.title" :artists="recording['artist-credit']"/>
+          </li>
+        </ul>
     </template>
     <template v-else>
       <p class="text-lg text-gray-700">Aucun enregistrement trouvé.</p>

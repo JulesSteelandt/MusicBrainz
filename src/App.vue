@@ -5,10 +5,11 @@
       <div class="container mx-auto py-4 px-6">
         <nav class="flex items-center justify-between">
           <div class="flex items-center">
-            <RouterLink class="text-2xl font-bold" to="/">MusicBrainz</RouterLink>
+            <RouterLink class="text-2xl font-bold hover:text-gray-300" to="/">MusicBrainz</RouterLink>
           </div>
           <div class="flex items-center space-x-4">
-            <RouterLink class="text-white hover:text-gray-300" to="/search">Rechercher</RouterLink>
+            <a href="https://musicbrainz.org/" class="hover:text-gray-300">MusicBrainz API</a>
+            <a href="https://github.com/JulesSteelandt" class="hover:text-gray-300">Jules Steelandt</a>
           </div>
         </nav>
       </div>
