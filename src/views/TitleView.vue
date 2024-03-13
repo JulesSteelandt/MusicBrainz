@@ -1,5 +1,8 @@
 <script>
+import ArtistResult from "@/components/search/ArtistResults.vue";
+
 export default {
+  components: {ArtistResult},
   data() {
     return {
       title: {},
@@ -15,7 +18,7 @@ export default {
         })
         .then((data) => {
           this.title = data;
-          this.artist = data['artist-credit'][0].artist;
+          this.artist = data['artist-credit'];
           this.loading = false;
         })
         .catch((error) => {
@@ -52,7 +55,11 @@ export default {
           <h2 v-show="!title.disambiguation">Type de musique non renseigné</h2>
         </div>
         <div>
-          <RouterLink :to="`/artist/${artist.id}`">{{ artist.name }}</RouterLink>
+          <ul>
+            <li v-for="(artist, index) in this.artist" :key="index">
+              <ArtistResult :name="artist.name" :disambiguation="artist.artist.disambiguation" :id="artist.artist.id"/>
+            </li>
+          </ul>
         </div>
         <div>
           <h2>{{ artist.type }}</h2>
