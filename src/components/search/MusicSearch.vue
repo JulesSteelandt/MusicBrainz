@@ -18,7 +18,7 @@ export default {
     <template v-if="results.length">
         <ul class="list-none">
           <li v-for="(recording, index) in results" :key="index" class="mb-4">
-            <MusicResults :title="recording.title" :artists="recording['artist-credit']"/>
+            <MusicResults :title="recording.title" :artists="recording['artist-credit']" :id="recording.id"/>
           </li>
         </ul>
     </template>
