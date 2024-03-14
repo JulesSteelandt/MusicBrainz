@@ -1,25 +1,35 @@
 <template>
-  <!-- Conteneur pour les résultats de la musique -->
-  <div class="max-w-lg mx-auto">
-    <!-- Lien vers la page de détails de la musique -->
-    <RouterLink :to="'/title/' + id" class="text-xl">{{ title }}</RouterLink>
-    <!-- Liste des artistes associés à la musique -->
-    <ul class="pl-4 list-none ">
-      <!-- Parcours des artistes -->
-      <li v-for="(artist, index) in artists" :key="index" class="text-s text-gray-500">
-        <!-- Lien vers la page de détails de l'artiste -->
-        <RouterLink :to="'/artist/' + artist.artist.id">{{ artist.name }}</RouterLink>
-      </li>
-    </ul>
+  <!-- Conteneur des résultats de recherche -->
+  <div class="max-w-lg mx-auto py-8">
+    <!-- Affiche les résultats si des enregistrements sont trouvés -->
+    <template v-if="results.length">
+      <!-- Liste des résultats -->
+      <ul class="list-none">
+        <!-- Parcours des enregistrements -->
+        <li v-for="(recording, index) in results" :key="index" class="mb-4">
+          <!-- Composant de résultats de musique pour chaque enregistrement -->
+          <MusicResults :title="recording.title" :artists="recording['artist-credit']" :id="recording.id"/>
+        </li>
+      </ul>
+    </template>
+    <!-- Affiche un message si aucun enregistrement n'est trouvé -->
+    <template v-else>
+      <p class="text-lg text-gray-700">Aucun enregistrement trouvé.</p>
+    </template>
   </div>
 </template>
 
 <script>
+import MusicResults from "@/components/search/MusicResults.vue";
+
 export default {
+  components: { MusicResults }, // Composant de résultats de musique
   props: {
-    title: String, // Propriété pour le titre de la musique (de type chaîne de caractères)
-    artists: Array, // Propriété pour la liste des artistes associés à la musique (de type tableau)
-    id: String, // Propriété pour l'identifiant de la musique (de type chaîne de caractères)
+    // Propriété pour les résultats de recherche de musique
+    results: {
+      type: Array, // Type de données attendu (un tableau)
+      default: () => [] // Valeur par défaut (un tableau vide)
+    }
   }
 }
 </script>
