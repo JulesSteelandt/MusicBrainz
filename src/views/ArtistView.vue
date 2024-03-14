@@ -1,34 +1,37 @@
 <template>
-  <main>
-    <div>
-      <div v-if="!loading">
-        <div>
-          <h2>{{ artist.name }}</h2>
+  <main class="container mx-auto py-8">
+    <div class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
+      <div>
+        <div v-if="!loading">
+          <div class="mb-4">
+            <h2 class="text-2xl font-bold">{{ artist.name }}</h2>
+          </div>
+          <div class="flex items-center mb-4">
+            <h2 class="mr-2">{{ artist.gender }}</h2>
+            <h2 class="text-gray-500" v-show="!artist.gender">Genre non renseigné</h2>
+          </div>
+          <div class="flex items-center mb-4">
+            <h2 class="mr-2">{{ artist.country }}</h2>
+            <h2 class="text-gray-500" v-show="!artist.country">Pays non renseigné</h2>
+          </div>
+          <div class="flex items-center mb-4">
+            <h2 class="mr-2">{{ artist.type }}</h2>
+            <h2 class="text-gray-500" v-show="!artist.type">Type d'artiste non renseigné</h2>
+          </div>
+          <div class="flex items-center">
+            <h2 class="mr-2">{{ artist.disambiguation }}</h2>
+            <h2 class="text-gray-500" v-show="!artist.disambiguation">Type de musique non renseigné</h2>
+          </div>
         </div>
-        <div>
-          <h2>{{ artist.gender }}</h2>
-          <h2 v-show="!artist.gender">Genre non renseigné</h2>
+        <div v-else>
+          <p>Loading...</p>
         </div>
-        <div>
-          <h2>{{ artist.country }}</h2>
-          <h2 v-show="!artist.country">Pays non renseigné</h2>
-        </div>
-        <div>
-          <h2>{{ artist.type }}</h2>
-          <h2 v-show="!artist.type">Type d'artiste non renseigné</h2>
-        </div>
-        <div>
-          <h2>{{ artist.disambiguation }}</h2>
-          <h2 v-show="!artist.disambiguation">Type de musique non renseigné</h2>
-        </div>
+        <RouterLink :to="'/'" class="block mt-4 text-blue-500 hover:underline">Retour</RouterLink>
       </div>
-      <div v-else>
-        <p>Loading...</p>
-      </div>
-      <RouterLink :to="'/'">Retour</RouterLink>
     </div>
   </main>
 </template>
+
 
 <script>
 export default {
