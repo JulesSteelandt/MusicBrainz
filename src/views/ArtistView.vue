@@ -2,6 +2,7 @@
   <main class="container mx-auto py-8">
     <div class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
       <div>
+        <div v-if="!error">
         <div v-if="!loading">
           <div class="mb-4">
             <h2 class="text-2xl font-bold">{{ artist.name }}</h2>
@@ -26,6 +27,10 @@
         <div v-else>
           <p>Loading...</p>
         </div>
+        </div>
+        <div v-else>
+          <p class="text-red-500">Une erreur est survenue. L'id que vous recherchez n'existe pas.</p>
+        </div>
         <RouterLink :to="'/'" class="block mt-4 text-blue-500 hover:underline">Retour</RouterLink>
       </div>
     </div>
@@ -38,6 +43,7 @@ export default {
   data() {
     return {
       loading: true,
+      error:false,
       artist: {}
     };
   },
@@ -45,6 +51,11 @@ export default {
     // récupère les informations de l'artiste à l'affichage de la page
       fetch(`https://musicbrainz.org/ws/2/artist/${this.id}?fmt=json`)
           .then((response) => {
+            if (!response.ok) {
+              this.loading = false;
+              this.error = true;
+              throw new Error('Network response was not ok, status: ' + response.status);
+            }
             return response.json();
           })
           .then((data) => {
@@ -53,6 +64,8 @@ export default {
           })
           .catch((error) => {
             console.log(error);
+            this.loading = false;
+            this.error = true;
           });
     },
   computed: {
