@@ -2,7 +2,7 @@
   <!-- Conteneur pour afficher les détails de l'artiste -->
   <div>
     <!-- Lien vers la page de détails de l'artiste -->
-    <RouterLink :to="'/artist/' + id">{{ name }}</RouterLink>
+    <RouterLink :to="'/artist/' + id" class="hover:text-gray-600">{{ name }}</RouterLink>
     <!-- Affiche la désambiguïsation s'il y en a -->
     <p v-if="disambiguation" class="text-sm text-gray-500">{{ disambiguation }}</p>
   </div>
